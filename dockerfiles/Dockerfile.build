@@ -1,0 +1,21 @@
+FROM golang
+
+# Install Node.js & yarn. Go is already installed.
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y nodejs yarn && \
+    chmod -R 777  /usr/lib/node_modules/ && \
+    rm -rf /var/lib/apt/lists/* 
+
+WORKDIR /src
+
+COPY . .
+
+RUN yarn
+
+# Build
+RUN GOOS=linux CGO_ENABLED=0 go build -o /dist/server ./server 
+RUN yarn build
+RUN cp -r build/* /dist

@@ -1,0 +1,8 @@
+.git
+build
+dockerfiles
+node_modules
+build.bat
+.dockerignore
+.vscode
+README.md

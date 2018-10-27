@@ -1,0 +1,26 @@
+{
+  "name": "kubecon-sh-demo",
+  "version": "1.0.0",
+  "repository": "https://github.com/pengx17/kubecon-sh-demo.git",
+  "author": "Peng <pengxiao@outlook.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-scripts": "2.0.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
