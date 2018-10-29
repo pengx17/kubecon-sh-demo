@@ -27,6 +27,22 @@ func main() {
 	http.HandleFunc("/api/mode", selectModeFromEnv)
 	http.Handle("/", loggingHandler{fs})
 
-	log.Printf("Serving at HTTP port 1216")
-	log.Fatal(http.ListenAndServe("0.0.0.0:1216", nil))
+	// go func() {
+	// 	slices := []int{}
+	// 	for true {
+	// 		fmt.Println("I am eating your memory!")
+	// 		slices = append(slices, make([]int, 1000)...)
+	// 		time.Sleep(time.Second)
+	// 	}
+	// }()
+
+	// go func() {
+	// 	fmt.Println("I am smashing your CPU!")
+	// 	for true {
+	// 		time.Sleep(time.Microsecond * 100)
+	// 	}
+	// }()
+
+	log.Printf("Serving at HTTP port 8080")
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 }

@@ -3,6 +3,7 @@ build
 dockerfiles
 node_modules
 build.bat
+build.sh
 .dockerignore
 .vscode
 README.md

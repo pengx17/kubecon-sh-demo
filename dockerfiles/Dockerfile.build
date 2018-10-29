@@ -11,9 +11,12 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
 
 WORKDIR /src
 
-COPY . .
+# Avoid reunning `yarn add`
+COPY package.json yarn.lock ./
 
 RUN yarn
+
+COPY . .
 
 # Build
 RUN GOOS=linux CGO_ENABLED=0 go build -o /dist/server ./server 
