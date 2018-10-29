@@ -17,5 +17,5 @@ RUN yarn
 
 # Build
 RUN GOOS=linux CGO_ENABLED=0 go build -o /dist/server ./server 
-RUN yarn build
+RUN yarn build:frontend
 RUN cp -r build/* /dist
