@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import newMain from "./k8s-store.png";
-import oldMain from "./k8s-store-old.png";
+import newApp from "./k8s-store.png";
+import oldApp from "./k8s-store-old.png";
+import errorPage from "./500-error.png";
 
 class App extends Component {
   constructor() {
@@ -13,7 +14,18 @@ class App extends Component {
     fetch("/api/mode")
       .then(res => res.text())
       .then(res => {
-        const url = res.toLowerCase() === "new" ? newMain : oldMain;
+        let url;
+        switch (res.toLowerCase()) {
+          case "new":
+            url = newApp;
+            break;
+          case "error":
+            url = errorPage;
+            break;
+          case "old":
+          default:
+            url = oldApp;
+        }
         this.setState({ url });
       });
   }

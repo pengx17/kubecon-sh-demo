@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 // loggingHandler enhances a handler with access logging
@@ -17,31 +18,35 @@ func (h loggingHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	h.handler.ServeHTTP(w, req)
 }
 
+var tooMuchMemory bool
+var mode string
+
 func selectModeFromEnv(w http.ResponseWriter, req *http.Request) {
-	mode := os.Getenv("SH_DEMO_APP_MODE")
+	if tooMuchMemory {
+		mode = "ERROR"
+	}
 	fmt.Fprintf(w, mode)
 }
 
 func main() {
 	fs := http.FileServer(http.Dir("."))
+	mode = os.Getenv("APP_MODE")
 	http.HandleFunc("/api/mode", selectModeFromEnv)
 	http.Handle("/", loggingHandler{fs})
 
-	// go func() {
-	// 	slices := []int{}
-	// 	for true {
-	// 		fmt.Println("I am eating your memory!")
-	// 		slices = append(slices, make([]int, 1000)...)
-	// 		time.Sleep(time.Second)
-	// 	}
-	// }()
-
-	// go func() {
-	// 	fmt.Println("I am smashing your CPU!")
-	// 	for true {
-	// 		time.Sleep(time.Microsecond * 100)
-	// 	}
-	// }()
+	if mode == "NEW" {
+		go func() {
+			time.Sleep(time.Second * 30)
+			slices := []int{}
+			tooMuchMemory = true
+			fmt.Println("I am smashing your memory and CPU!")
+			slices = append(slices, make([]int, 10000000)...)
+			for true {
+				slices = append(slices, make([]int, 10)...)
+				time.Sleep(time.Microsecond * 100)
+			}
+		}()
+	}
 
 	log.Printf("Serving at HTTP port 8080")
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
